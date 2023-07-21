@@ -82,7 +82,7 @@
                         <p>Subtotal</p>
                     </div>
                     <div class="right">
-                        <p>$500</p>
+                        <p id="subTotal">$0</p>
                     </div>
                 </div>
 
@@ -91,7 +91,7 @@
                         <p>Charge 10% VAT</p>
                     </div>
                     <div class="right">
-                        <p>$50</p>
+                        <p id="vat">$0</p>
                     </div>
                 </div>
                 <hr>
@@ -100,7 +100,7 @@
                         <h4>Total</h4>
                     </div>
                     <div class="right">
-                        <p>$550</p>
+                        <p id="grandTotal">$0</p>
                     </div>
                 </div>
             </div>
@@ -116,6 +116,7 @@
             const parseFirstClassInput = parseInt(firstClassInput.value);
             const firstClassInputTotal = parseFirstClassInput + 1;
             firstClassInput.value = firstClassInputTotal;
+            calculateTotal()
         })
 
         document.getElementById("economyClassPlusButton").addEventListener("click", function(){
@@ -123,21 +124,50 @@
             const parseEconomyClassInput = parseInt(economyClassInput.value);
             const economyClassInputTotal = parseEconomyClassInput + 1;
             economyClassInput.value = economyClassInputTotal;
+            calculateTotal()
         })
 
         document.getElementById("firstClassMinusButton").addEventListener("click", function(){
             const firstClassInput = document.getElementById("firstClassInput");
             const parseFirstClassInput = parseInt(firstClassInput.value);
+            if (parseFirstClassInput > 0) {
             const firstClassInputTotal = parseFirstClassInput - 1;
             firstClassInput.value = firstClassInputTotal;
+            calculateTotal()
+            }
         })
 
         document.getElementById("economyClassMinusButton").addEventListener("click", function(){
             const economyClassInput = document.getElementById("economyClassInput");
             const parseEconomyClassInput = parseInt(economyClassInput.value);
-            const economyClassInputTotal = parseEconomyClassInput - 1;
+            if (parseEconomyClassInput > 0) {
+                const economyClassInputTotal = parseEconomyClassInput - 1;
             economyClassInput.value = economyClassInputTotal;
+            calculateTotal()
+            }
         })
+
+        function calculateTotal() {
+            const firstClass = document.getElementById('firstClassInput');
+            const firstClassCount = parseInt(firstClass.value);
+
+            const economyClass = document.getElementById('economyClassInput');
+            const economyClassCount = parseInt(economyClass.value);
+
+            const totalPrice = firstClassCount * 150 + economyClassCount * 100 ;
+            document.getElementById('subTotal').innerText = '$' + totalPrice;
+
+            const vat = Math.round(totalPrice * 0.1);
+            document.getElementById('vat').innerText ='$' + vat;
+
+            const grandTotal = '$' + (totalPrice + vat);
+            document.getElementById('grandTotal').innerText = grandTotal;
+
+        }
+
+        function handleProductChange(){
+            
+        }
     </script>
 
 </body>
